@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amitai Abrahami — Sequential & Storyboard Artist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --ink:       #0D0F1A;
+      --paper:     #F2EDE4;
+      --graphite:  #3A3C4A;
+      --gold:      #C9A84C;
+      --red:       #C0392B;
+      --panel-gap: 3px;
+      --rule:      2px solid var(--ink);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--paper);
+      overflow-x: hidden;
+    }
+
+    /* ── PANEL MARK — decorative corner ── */
+    .panel-mark::before,
+    .panel-mark::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .panel-mark::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .panel-mark::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      background: rgba(13, 15, 26, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--paper);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 60px 70px;
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .hero-panels {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1.2fr 0.5fr 0.8fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: var(--panel-gap);
+      opacity: 0.18;
+    }
+
+    .hero-panel {
+      background: var(--graphite);
+      position: relative;
+    }
+    .hero-panel:nth-child(1) { grid-row: 1 / 3; background: #1c1f30; }
+    .hero-panel:nth-child(2) { background: #252836; }
+    .hero-panel:nth-child(3) { grid-row: 1 / 3; background: #1a1d2a; }
+    .hero-panel:nth-child(4) { background: #222535; }
+    .hero-panel:nth-child(5) { background: #1e2130; }
+    .hero-panel:nth-child(6) { background: #252836; }
+
+    /* Speed-line SVG overlay */
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -30deg,
+        transparent,
+        transparent 60px,
+        rgba(201,168,76,0.025) 60px,
+        rgba(201,168,76,0.025) 61px
+      );
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      position: relative;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .hero-name {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      color: var(--paper);
+    }
+    .hero-name .line2 { color: var(--gold); }
+
+    .hero-rule {
+      position: relative;
+      width: 80px;
+      height: 3px;
+      background: var(--red);
+      margin: 28px 0;
+    }
+
+    .hero-tagline {
+      position: relative;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(242,237,228,0.75);
+      max-width: 520px;
+    }
+
+    .hero-cta {
+      position: relative;
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 11px 28px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      border: 2px solid var(--gold);
+    }
+    .btn-primary:hover { background: transparent; color: var(--gold); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--paper);
+      border: 2px solid rgba(242,237,228,0.35);
+    }
+    .btn-ghost:hover { border-color: var(--paper); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 30px; right: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: '';
+      width: 1px; height: 50px;
+      background: var(--paper);
+      display: block;
+    }
+
+    /* ── SECTION SHARED ── */
+    .portfolio-section {
+      padding: 100px 60px;
+      position: relative;
+    }
+    .portfolio-section + .portfolio-section {
+      border-top: var(--panel-gap) solid #1a1c28;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: 0.06em;
+      color: var(--paper);
+      line-height: 1;
+    }
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 4px 10px;
+      border: 1px solid var(--gold);
+      align-self: center;
+    }
+
+    /* ── PANEL GRID ── */
+    .panel-grid {
+      display: grid;
+      gap: var(--panel-gap);
+    }
+    /* Character Designs: 3-col with one tall */
+    .grid-character {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: 340px 240px;
+    }
+    .grid-character .panel-item:first-child { grid-row: 1 / 3; }
+
+    /* Comics: 2-col staggered */
+    .grid-comics {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 280px 200px;
+    }
+    .grid-comics .panel-item:nth-child(2) { grid-column: 2 / 4; }
+    .grid-comics .panel-item:nth-child(4) { grid-column: 1 / 3; }
+
+    /* Graphics: 4-col masonry feel */
+    .grid-graphics {
+      grid-template-columns: 1fr 1.5fr 1fr 1fr;
+      grid-template-rows: 220px 260px;
+    }
+    .grid-graphics .panel-item:nth-child(2) { grid-row: 1 / 3; }
+
+    /* Illustrations: 2-row asymmetric */
+    .grid-illustrations {
+      grid-template-columns: 1.8fr 1fr 1fr;
+      grid-template-rows: 300px 200px;
+    }
+    .grid-illustrations .panel-item:first-child { grid-row: 1 / 3; }
+    .grid-illustrations .panel-item:nth-child(4) { grid-column: 2 / 4; }
+
+    /* Storyboards: widescreen strip feel */
+    .grid-storyboards {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 180px 220px;
+    }
+    .grid-storyboards .panel-item:nth-child(1) { grid-column: 1 / 3; }
+    .grid-storyboards .panel-item:nth-child(5) { grid-column: 3 / 5; }
+
+    /* ── PANEL ITEM ── */
+    .panel-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--graphite);
+      cursor: pointer;
+      outline: var(--panel-gap) solid transparent;
+      transition: outline-color 0.2s;
+    }
+    .panel-item:hover { outline-color: var(--gold); }
+    .panel-item:hover .panel-overlay { opacity: 1; }
+    .panel-item:hover .panel-thumb { transform: scale(1.04); }
+
+    .panel-thumb {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      filter: grayscale(20%) contrast(1.05);
+    }
+
+    /* Placeholder art for panels */
+    .panel-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: rgba(242,237,228,0.15);
+    }
+    .panel-placeholder svg {
+      width: 40%;
+      height: 40%;
+      opacity: 0.12;
+    }
+
+    .panel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,15,26,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .panel-caption {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Corner bracket on hover */
+    .panel-item::before,
+    .panel-item::after {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      border-color: var(--gold);
+      border-style: solid;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .panel-item::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .panel-item::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+    .panel-item:hover::before,
+    .panel-item:hover::after { opacity: 1; }
+
+    /* Generate distinct placeholder colors */
+    .panel-item:nth-child(1) { background: #1a2030; }
+    .panel-item:nth-child(2) { background: #1c1e2d; }
+    .panel-item:nth-child(3) { background: #20222f; }
+    .panel-item:nth-child(4) { background: #181a27; }
+    .panel-item:nth-child(5) { background: #1e2035; }
+    .panel-item:nth-child(6) { background: #22243a; }
+
+    /* ── ABOUT STRIP ── */
+    #about {
+      background: var(--paper);
+      color: var(--ink);
+      padding: 90px 60px;
+      position: relative;
+    }
+    #about::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--red);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-left {}
+    .about-name-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      line-height: 0.95;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+    .about-name-big span { color: var(--red); }
+
+    .about-role {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--graphite);
+      margin-bottom: 28px;
+    }
+    .about-divider {
+      width: 50px; height: 3px;
+      background: var(--ink);
+      margin-bottom: 28px;
+    }
+    .about-interests {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .interest-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--graphite);
+    }
+    .interest-tag::before {
+      content: '';
+      width: 20px; height: 2px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    .about-right {}
+    .about-bio {
+      font-size: 1.08rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--graphite);
+      margin-bottom: 28px;
+    }
+    .about-bio strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .about-services {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .service-item {
+      padding: 18px 20px;
+      border: 1px solid rgba(58,60,74,0.2);
+      position: relative;
+    }
+    .service-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--gold);
+    }
+    .service-item-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .service-item-desc {
+      font-size: 0.8rem;
+      color: var(--graphite);
+      line-height: 1.5;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--ink);
+      padding: 100px 60px;
+      text-align: center;
+      position: relative;
+    }
+    .contact-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .contact-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      letter-spacing: 0.06em;
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .contact-headline span { color: var(--red); }
+    .contact-sub {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(242,237,228,0.6);
+      max-width: 440px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #07080f;
+      padding: 28px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: rgba(242,237,228,0.4);
+    }
+    .footer-copy {
+      font-size: 0.65rem;
+      color: rgba(242,237,228,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── GUTTER LINES (between sections) ── */
+    .gutter-line {
+      height: var(--panel-gap);
+      background: #12141f;
+      position: relative;
+    }
+    .gutter-line::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 50%;
+      transform: translateX(-50%);
+      width: 40px; height: 7px;
+      background: var(--gold);
+      opacity: 0.25;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 14px 24px; }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 0.62rem; }
+
+      #hero { padding: 0 24px 60px; }
+      .portfolio-section { padding: 70px 24px; }
+      #about { padding: 70px 24px; }
+      #contact { padding: 70px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-services { grid-template-columns: 1fr; }
+
+      .grid-character,
+      .grid-comics,
+      .grid-graphics,
+      .grid-illustrations,
+      .grid-storyboards {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .panel-item { height: 180px; }
+      .panel-item:first-child { grid-column: 1 / -1; grid-row: auto; height: 240px; }
+      .grid-comics .panel-item:nth-child(2),
+      .grid-comics .panel-item:nth-child(4),
+      .grid-graphics .panel-item:nth-child(2),
+      .grid-illustrations .panel-item:first-child,
+      .grid-illustrations .panel-item:nth-child(4),
+      .grid-storyboards .panel-item:nth-child(1),
+      .grid-storyboards .panel-item:nth-child(5) {
+        grid-column: auto;
+        grid-row: auto;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      .hero-name { font-size: 3.8rem; }
+      .panel-grid { grid-template-columns: 1fr; }
+      .panel-item { height: 200px !important; grid-column: auto !important; grid-row: auto !important; }
+    }
+
+    /* Scroll fade-in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Amitai <span>Abrahami</span></a>
+  <ul class="nav-links">
+    <li><a href="#characters">Characters</a></li>
+    <li><a href="#comics">Comics</a></li>
+    <li><a href="#graphics">Graphics</a></li>
+    <li><a href="#illustrations">Illustrations</a></li>
+    <li><a href="#storyboards">Storyboards</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-panels" aria-hidden="true">
+    <div class="hero-panel"></div>
+    <div class="hero-panel"></div>
+    <div class="hero-panel"></div>
+    <div class="hero-panel"></div>
+    <div class="hero-panel"></div>
+    <div class="hero-panel"></div>
+  </div>
+  <div class="hero-lines" aria-hidden="true"></div>
+
+  <p class="hero-eyebrow">Sequential &amp; Storyboard Artist</p>
+  <h1 class="hero-name">
+    Amitai<br>
+    <span class="line2">Abrahami</span>
+  </h1>
+  <div class="hero-rule"></div>
+  <p class="hero-tagline">
+    Turning ideas into clear, engaging visual stories — for animation, film, commercials, and beyond.
+  </p>
+  <div class="hero-cta">
+    <a href="#storyboards" class="btn btn-primary">View Work</a>
+    <a href="#about" class="btn btn-ghost">About Me</a>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">Scroll</div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- CHARACTER DESIGNS -->
+<section class="portfolio-section" id="characters">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Character Designs</h2>
+    <span class="section-label">Vol. 01</span>
+  </div>
+  <div class="panel-grid grid-character fade-in">
+    <div class="panel-item">
+      <div class="panel-placeholder">
+        <svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="30" rx="22" ry="26" stroke="currentColor" stroke-width="2"/>
+          <path d="M20 140 C20 90 80 90 80 140" stroke="currentColor" stroke-width="2"/>
+          <line x1="30" y1="75" x2="15" y2="105" stroke="currentColor" stroke-width="2"/>
+          <line x1="70" y1="75" x2="85" y2="105" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="panel-overlay"><span class="panel-caption">Hero Design</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 100" fill="none"><ellipse cx="40" cy="24" rx="18" ry="20" stroke="currentColor" stroke-width="2"/><path d="M15 100 C15 68 65 68 65 100" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Villain Concept</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 100" fill="none"><ellipse cx="40" cy="22" rx="15" ry="18" stroke="currentColor" stroke-width="2"/><path d="M18 100 C18 72 62 72 62 100" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Supporting Cast</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 80" fill="none"><rect x="15" y="15" width="50" height="50" rx="4" stroke="currentColor" stroke-width="2"/><line x1="15" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Expression Sheet</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="14" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Turnaround</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- COMICS -->
+<section class="portfolio-section" id="comics">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Comics</h2>
+    <span class="section-label">Vol. 02</span>
+  </div>
+  <div class="panel-grid grid-comics fade-in">
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 60 80" fill="none"><rect x="5" y="5" width="50" height="70" rx="2" stroke="currentColor" stroke-width="2"/><line x1="5" y1="30" x2="55" y2="30" stroke="currentColor" stroke-width="2"/><line x1="5" y1="55" x2="55" y2="55" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Page Layout</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 120 80" fill="none"><rect x="4" y="4" width="52" height="72" rx="2" stroke="currentColor" stroke-width="2"/><rect x="64" y="4" width="52" height="34" rx="2" stroke="currentColor" stroke-width="2"/><rect x="64" y="44" width="52" height="32" rx="2" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Sequential Spread</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 80" fill="none"><path d="M10 10 L70 10 L70 60 L40 60 L40 70 L30 60 L10 60 Z" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Dialogue Panel</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 110 80" fill="none"><rect x="4" y="4" width="48" height="72" rx="2" stroke="currentColor" stroke-width="2"/><rect x="58" y="4" width="48" height="72" rx="2" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Double Page</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="24" stroke="currentColor" stroke-width="2"/><path d="M20 25 Q30 15 40 25 Q30 35 20 25" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Cover Art</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- GRAPHICS -->
+<section class="portfolio-section" id="graphics">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Graphics</h2>
+    <span class="section-label">Vol. 03</span>
+  </div>
+  <div class="panel-grid grid-graphics fade-in">
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 60" fill="none"><rect x="10" y="10" width="60" height="40" rx="3" stroke="currentColor" stroke-width="2"/><path d="M10 30 L35 20 L55 35 L70 25" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Brand Identity</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 100" fill="none"><polygon points="40,8 72,30 72,70 40,92 8,70 8,30" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="40" cy="50" r="16" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Logo Design</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 60" fill="none"><rect x="5" y="5" width="70" height="50" rx="2" stroke="currentColor" stroke-width="2"/><rect x="15" y="15" width="20" height="30" rx="1" stroke="currentColor" stroke-width="2"/><line x1="45" y1="20" x2="65" y2="20" stroke="currentColor" stroke-width="2"/><line x1="45" y1="30" x2="65" y2="30" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Poster Art</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 60 80" fill="none"><circle cx="30" cy="20" r="14" stroke="currentColor" stroke-width="2"/><rect x="8" y="38" width="44" height="36" rx="2" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Promo Graphics</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 60" fill="none"><rect x="5" y="5" width="70" height="50" rx="2" stroke="currentColor" stroke-width="2"/><path d="M20 40 L30 20 L40 32 L50 25 L60 40" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Motion Graphics</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 60" fill="none"><rect x="5" y="5" width="35" height="50" rx="2" stroke="currentColor" stroke-width="2"/><rect x="45" y="5" width="30" height="24" rx="2" stroke="currentColor" stroke-width="2"/><rect x="45" y="33" width="30" height="22" rx="2" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Editorial Layout</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- ILLUSTRATIONS -->
+<section class="portfolio-section" id="illustrations">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Illustrations</h2>
+    <span class="section-label">Vol. 04</span>
+  </div>
+  <div class="panel-grid grid-illustrations fade-in">
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 110" fill="none"><path d="M10 80 Q40 10 70 80" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="42" r="18" stroke="currentColor" stroke-width="2"/><line x1="5" y1="90" x2="75" y2="90" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Feature Illustration</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><rect x="10" y="10" width="60" height="50" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="35" r="15" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Scene Study</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><path d="M10 60 Q25 20 40 35 Q55 50 70 10" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Environment Art</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 120 80" fill="none"><ellipse cx="60" cy="40" rx="50" ry="30" stroke="currentColor" stroke-width="2"/><path d="M30 40 Q60 20 90 40" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Concept Art</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- STORYBOARDS -->
+<section class="portfolio-section" id="storyboards">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Storyboards</h2>
+    <span class="section-label">Vol. 05</span>
+  </div>
+  <div class="panel-grid grid-storyboards fade-in">
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 120 80" fill="none"><rect x="5" y="5" width="110" height="70" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 55 L40 30 L80 50 L115 20" stroke="currentColor" stroke-width="2"/><line x1="5" y1="60" x2="115" y2="60" stroke="currentColor" stroke-width="1" stroke-dasharray="4,4"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Opening Sequence</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><rect x="5" y="5" width="70" height="60" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="35" cy="32" rx="16" ry="18" stroke="currentColor" stroke-width="2"/><line x1="5" y1="50" x2="75" y2="50" stroke="currentColor" stroke-width="1" stroke-dasharray="3,3"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Close-Up</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><rect x="5" y="5" width="70" height="60" rx="2" stroke="currentColor" stroke-width="2"/><line x1="5" y1="35" x2="75" y2="35" stroke="currentColor" stroke-width="1" stroke-dasharray="3,3"/><path d="M15 55 L40 25 L65 55" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Wide Establishing</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><rect x="5" y="5" width="70" height="60" rx="2" stroke="currentColor" stroke-width="2"/><path d="M20 65 L40 10 L60 65" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Action Beat</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 80 70" fill="none"><rect x="5" y="5" width="70" height="60" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="35" r="20" stroke="currentColor" stroke-width="2"/><line x1="40" y1="15" x2="40" y2="55" stroke="currentColor" stroke-width="1" stroke-dasharray="3,3"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Reaction Shot</span></div>
+    </div>
+    <div class="panel-item">
+      <div class="panel-placeholder"><svg viewBox="0 0 120 70" fill="none"><rect x="5" y="5" width="110" height="60" rx="2" stroke="currentColor" stroke-width="2"/><line x1="5" y1="40" x2="115" y2="40" stroke="currentColor" stroke-width="1" stroke-dasharray="3,3"/><path d="M20 60 Q40 35 60 45 Q80 55 115 20" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="panel-overlay"><span class="panel-caption">Final Scene</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gutter-line"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-left fade-in">
+      <p class="about-role">Sequential &amp; Storyboard Artist</p>
+      <h2 class="about-name-big">Amitai<br><span>Abrahami</span></h2>
+      <div class="about-divider"></div>
+      <div class="about-interests">
+        <span class="interest-tag">WWE</span>
+        <span class="interest-tag">Star Wars / Lucasfilm</span>
+        <span class="interest-tag">Disney</span>
+        <span class="interest-tag">Storyboarding</span>
+      </div>
+    </div>
+    <div class="about-right fade-in">
+      <p class="about-bio">
+        Growing up, <strong>TV shows, cartoons, and comics</strong> gave me a sense of escape — and inspired me to create stories that give other people that same feeling.
+      </p>
+      <p class="about-bio">
+        I use storyboards and comics to turn ideas into <strong>clear, engaging visual stories</strong>. Whether it's animation, film, commercials, or any creative project — my goal is simple: to <strong>entertain, communicate clearly, and create stories people can connect with.</strong>
+      </p>
+      <div class="about-services">
+        <div class="service-item">
+          <p class="service-item-title">Storyboarding</p>
+          <p class="service-item-desc">Animation, film, commercials & promotional content</p>
+        </div>
+        <div class="service-item">
+          <p class="service-item-title">Comics & Sequential Art</p>
+          <p class="service-item-desc">Panel-by-panel visual storytelling from concept to finish</p>
+        </div>
+        <div class="service-item">
+          <p class="service-item-title">Character Design</p>
+          <p class="service-item-desc">Original characters with personality, expression & life</p>
+        </div>
+        <div class="service-item">
+          <p class="service-item-title">Visual Development</p>
+          <p class="service-item-desc">Bringing ideas to life for companies & creators</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="contact-eyebrow fade-in">Let's Tell a Story</p>
+  <h2 class="contact-headline fade-in">Got an<br><span>Idea?</span></h2>
+  <p class="contact-sub fade-in">Whether you need a storyboard, a comic, or a character — let's bring your vision to life.</p>
+  <div class="fade-in">
+    <a href="mailto:hello@amitaiabrahami.com" class="btn btn-primary">Get In Touch</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Amitai Abrahami</span>
+  <span class="footer-copy">&copy; 2026 · Sequential &amp; Storyboard Artist</span>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // Staggered fade for children of grid
+  document.querySelectorAll('.panel-grid').forEach(grid => {
+    [...grid.children].forEach((child, i) => {
+      child.style.transitionDelay = `${i * 60}ms`;
+    });
+  });
+</script>
+</body>
+</html>
