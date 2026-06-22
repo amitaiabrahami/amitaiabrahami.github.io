@@ -418,9 +418,8 @@ document.querySelectorAll('.project-grid').forEach(grid => {
   const projects = PROJECTS.filter(p => p.section === section);
 
   projects.forEach((proj, idx) => {
-    const allImages = proj.cover
-      ? [proj.cover, ...proj.images.filter(i => i !== proj.cover)]
-      : proj.images;
+    // Use images array as-is for order; cover is only for the thumbnail
+    const allImages = proj.images.length > 0 ? proj.images : (proj.cover ? [proj.cover] : []);
 
     const imageCount = allImages.length;
     const countLabel = imageCount > 1 ? `${imageCount} images` : imageCount === 1 ? '1 image' : 'No images yet';
