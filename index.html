@@ -102,62 +102,33 @@
     .project-thumb::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
     .project-thumb:hover::before, .project-thumb:hover::after { opacity: 1; }
 
-    /* expand indicator */
-    .expand-indicator {
+    /* play indicator */
+    .play-indicator {
       position: absolute; top: 12px; right: 12px; z-index: 3;
-      width: 26px; height: 26px; border: 1.5px solid rgba(201,168,76,0.6);
+      width: 28px; height: 28px; border: 1.5px solid rgba(201,168,76,0.7);
       display: flex; align-items: center; justify-content: center;
-      background: rgba(13,15,26,0.7); transition: all 0.2s;
+      background: rgba(13,15,26,0.75);
     }
-    .expand-indicator svg { width: 12px; height: 12px; stroke: var(--gold); fill: none; transition: transform 0.3s; }
-    .project-card.open .expand-indicator svg { transform: rotate(45deg); }
-
-    /* ── DRAWER ── */
-    .project-drawer {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
-      grid-column: 1 / -1;
-      background: #12141f;
-      border-left: 3px solid var(--gold);
-    }
-    .project-card.open .project-drawer { max-height: 600px; }
-
-    .drawer-inner { padding: 24px 28px; }
-    .drawer-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.08em; color: var(--paper); margin-bottom: 6px; }
-    .drawer-desc { font-size: 0.82rem; font-weight: 300; color: rgba(242,237,228,0.6); margin-bottom: 20px; line-height: 1.6; }
-
-    .drawer-strip {
-      display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px;
-      scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
-    }
-    .drawer-strip::-webkit-scrollbar { height: 3px; }
-    .drawer-strip::-webkit-scrollbar-thumb { background: var(--gold); }
-
-    .drawer-img-wrap {
-      flex-shrink: 0; height: 260px; position: relative; cursor: pointer;
-      outline: 2px solid transparent; transition: outline-color 0.2s;
-    }
-    .drawer-img-wrap:hover { outline-color: var(--gold); }
-    .drawer-img-wrap img { height: 100%; width: auto; max-width: 340px; object-fit: cover; display: block; }
-    .drawer-img-wrap .img-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 6px 10px; background: rgba(13,15,26,0.75); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-
-    /* placeholder image in drawer */
-    .drawer-img-placeholder { height: 260px; width: 200px; background: #1e2030; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: rgba(242,237,228,0.12); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; border: 1px dashed rgba(242,237,228,0.08); }
+    .play-indicator svg { width: 11px; height: 11px; fill: var(--gold); }
 
     /* ── LIGHTBOX ── */
     #lightbox {
       display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(7,8,15,0.96); align-items: center; justify-content: center;
+      background: rgba(7,8,15,0.97);
+      flex-direction: column; align-items: center; justify-content: center;
     }
     #lightbox.active { display: flex; }
-    #lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
-    .lb-close { position: absolute; top: 24px; right: 32px; font-size: 2rem; color: var(--paper); cursor: pointer; opacity: 0.6; transition: opacity 0.2s; background: none; border: none; }
+    #lightbox img { max-width: 88vw; max-height: 78vh; object-fit: contain; display: block; }
+    .lb-close { position: absolute; top: 20px; right: 28px; font-size: 1.6rem; color: var(--paper); cursor: pointer; opacity: 0.5; transition: opacity 0.2s; background: none; border: none; line-height: 1; }
     .lb-close:hover { opacity: 1; }
-    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--paper); font-size: 2rem; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; padding: 20px; }
-    .lb-prev:hover, .lb-next:hover { opacity: 1; }
-    .lb-prev { left: 16px; }
-    .lb-next { right: 16px; }
-    .lb-counter { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(242,237,228,0.5); }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: 1.5px solid rgba(242,237,228,0.15); color: var(--paper); font-size: 1.4rem; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, border-color 0.2s; padding: 14px 18px; }
+    .lb-prev:hover, .lb-next:hover { opacity: 1; border-color: var(--gold); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 48px; display: flex; align-items: flex-end; justify-content: space-between; background: linear-gradient(to top, rgba(7,8,15,0.9), transparent); }
+    .lb-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; color: var(--paper); line-height: 1; }
+    .lb-desc { font-size: 0.75rem; font-weight: 300; color: rgba(242,237,228,0.5); margin-top: 4px; max-width: 500px; line-height: 1.5; }
+    .lb-counter { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); white-space: nowrap; }
 
     /* ── GUTTER ── */
     .gutter { height: var(--gap); background: #0e1018; position: relative; }
@@ -222,7 +193,13 @@
   <button class="lb-prev" id="lb-prev" aria-label="Previous">&#8592;</button>
   <img id="lb-img" src="" alt="" />
   <button class="lb-next" id="lb-next" aria-label="Next">&#8594;</button>
-  <span class="lb-counter" id="lb-counter"></span>
+  <div class="lb-footer">
+    <div>
+      <div class="lb-title" id="lb-title"></div>
+      <div class="lb-desc" id="lb-desc"></div>
+    </div>
+    <span class="lb-counter" id="lb-counter"></span>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -339,8 +316,8 @@
 
    Each project has:
      section  — which tab it belongs to (characters / comics / graphics / illustrations / storyboards)
-     title    — project name shown on hover and in drawer
-     desc     — short description shown in drawer (optional)
+     title    — project name shown on hover and in lightbox
+     desc     — short description shown in lightbox footer
      cover    — filename of the cover image (e.g. "myproject-cover.jpg")
                 leave as "" to show a placeholder
      images   — array of all image filenames in the project
@@ -453,89 +430,53 @@ document.querySelectorAll('.project-grid').forEach(grid => {
       ? `<img src="${proj.cover}" alt="${proj.title}" loading="lazy" />`
       : `<div class="placeholder">${PLACEHOLDER_SVG}<span>Add Cover Image</span></div>`;
 
-    // Drawer images
-    const drawerImagesHTML = imageCount > 0
-      ? allImages.map((img, i) => `
-          <div class="drawer-img-wrap" data-proj="${section}-${idx}" data-imgidx="${i}">
-            <img src="${img}" alt="${proj.title} — image ${i+1}" loading="lazy" />
-            <span class="img-label">Image ${i+1}</span>
-          </div>`).join('')
-      : `<div class="drawer-img-placeholder">Upload images to see them here</div>`;
-
     const card = document.createElement('div');
     card.className = 'project-card';
     card.dataset.proj = `${section}-${idx}`;
+    card.dataset.images = JSON.stringify(allImages);
+    card.dataset.title = proj.title;
+    card.dataset.desc = proj.desc || '';
     card.innerHTML = `
-      <div class="project-thumb" tabindex="0" role="button" aria-expanded="false" aria-label="Expand ${proj.title}">
+      <div class="project-thumb" tabindex="0" role="button" aria-label="View ${proj.title}">
         ${coverHTML}
         <div class="thumb-overlay">
           <div class="thumb-title">${proj.title}</div>
           <div class="thumb-count">${countLabel}</div>
         </div>
-        <div class="expand-indicator" aria-hidden="true">
-          <svg viewBox="0 0 12 12" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
-        </div>
-      </div>
-      <div class="project-drawer" role="region" aria-label="${proj.title} images">
-        <div class="drawer-inner">
-          <div class="drawer-title">${proj.title}</div>
-          ${proj.desc ? `<div class="drawer-desc">${proj.desc}</div>` : ''}
-          <div class="drawer-strip">${drawerImagesHTML}</div>
-        </div>
+        ${imageCount > 0 ? `<div class="play-indicator" aria-hidden="true"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>` : ''}
       </div>`;
 
     grid.appendChild(card);
   });
 });
 
-/* ─── EXPAND / COLLAPSE ─── */
-document.querySelectorAll('.project-grid').forEach(grid => {
-  grid.addEventListener('click', e => {
-    const thumb = e.target.closest('.project-thumb');
-    if (!thumb) return;
-    const card = thumb.closest('.project-card');
-    const isOpen = card.classList.contains('open');
-
-    // Close all in same grid
-    grid.querySelectorAll('.project-card.open').forEach(c => {
-      c.classList.remove('open');
-      c.querySelector('.project-thumb').setAttribute('aria-expanded', 'false');
-    });
-
-    if (!isOpen) {
-      card.classList.add('open');
-      thumb.setAttribute('aria-expanded', 'true');
-      // Scroll drawer into view after transition
-      setTimeout(() => card.querySelector('.project-drawer').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
-    }
-  });
-
-  // Keyboard support
-  grid.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      const thumb = e.target.closest('.project-thumb');
-      if (thumb) { e.preventDefault(); thumb.click(); }
-    }
-  });
-});
-
-/* ─── LIGHTBOX ─── */
-let lbImages = [], lbIdx = 0;
+/* ─── CLICK CARD → OPEN LIGHTBOX ─── */
+let lbImages = [], lbIdx = 0, lbTitle = '', lbDesc = '';
 
 document.addEventListener('click', e => {
-  const wrap = e.target.closest('.drawer-img-wrap');
-  if (!wrap) return;
-
-  const strip = wrap.closest('.drawer-strip');
-  const wraps = [...strip.querySelectorAll('.drawer-img-wrap img')];
-  lbImages = wraps.map(i => i.src);
-  lbIdx = parseInt(wrap.dataset.imgidx) || 0;
+  const thumb = e.target.closest('.project-thumb');
+  if (!thumb) return;
+  const card = thumb.closest('.project-card');
+  const images = JSON.parse(card.dataset.images || '[]');
+  if (!images.length) return;
+  lbImages = images;
+  lbIdx = 0;
+  lbTitle = card.dataset.title || '';
+  lbDesc = card.dataset.desc || '';
   openLightbox();
 });
 
+document.addEventListener('keydown', e => {
+  const thumb = e.target.closest('.project-thumb');
+  if (thumb && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); thumb.click(); }
+});
+
+/* ─── LIGHTBOX ─── */
 function openLightbox() {
   document.getElementById('lb-img').src = lbImages[lbIdx];
   document.getElementById('lb-counter').textContent = `${lbIdx + 1} / ${lbImages.length}`;
+  document.getElementById('lb-title').textContent = lbTitle;
+  document.getElementById('lb-desc').textContent = lbDesc;
   document.getElementById('lightbox').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -543,16 +484,29 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
   document.body.style.overflow = '';
 }
+function lbPrev() { lbIdx = (lbIdx - 1 + lbImages.length) % lbImages.length; openLightbox(); }
+function lbNext() { lbIdx = (lbIdx + 1) % lbImages.length; openLightbox(); }
+
 document.getElementById('lb-close').addEventListener('click', closeLightbox);
-document.getElementById('lb-prev').addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbImages.length) % lbImages.length; openLightbox(); });
-document.getElementById('lb-next').addEventListener('click', () => { lbIdx = (lbIdx + 1) % lbImages.length; openLightbox(); });
+document.getElementById('lb-prev').addEventListener('click', lbPrev);
+document.getElementById('lb-next').addEventListener('click', lbNext);
 document.addEventListener('keydown', e => {
   if (!document.getElementById('lightbox').classList.contains('active')) return;
   if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') document.getElementById('lb-prev').click();
-  if (e.key === 'ArrowRight') document.getElementById('lb-next').click();
+  if (e.key === 'ArrowLeft') lbPrev();
+  if (e.key === 'ArrowRight') lbNext();
 });
 document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
+
+// Swipe support for mobile
+let lbTouchX = null;
+document.getElementById('lightbox').addEventListener('touchstart', e => { lbTouchX = e.touches[0].clientX; });
+document.getElementById('lightbox').addEventListener('touchend', e => {
+  if (lbTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  if (Math.abs(dx) > 40) dx < 0 ? lbNext() : lbPrev();
+  lbTouchX = null;
+});
 
 /* ─── SCROLL FADE IN ─── */
 const obs = new IntersectionObserver(entries => {
