@@ -165,6 +165,14 @@
     .contact-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 5.5rem); letter-spacing: 0.06em; line-height: 0.95; margin-bottom: 22px; }
     .contact-headline span { color: var(--red); }
     .contact-sub { font-size: 0.95rem; font-weight: 300; color: rgba(242,237,228,0.6); max-width: 440px; margin: 0 auto 40px; line-height: 1.7; }
+    .contact-form { max-width: 540px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; text-align: left; }
+    .contact-form input, .contact-form textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.25); border-radius: 4px; padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--paper); outline: none; transition: border-color 0.2s; resize: none; }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(242,237,228,0.3); }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--gold); }
+    .contact-form textarea { min-height: 140px; }
+    .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .contact-form .btn { width: 100%; justify-content: center; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px; }
+    .contact-success { display: none; text-align: center; padding: 24px; border: 1px solid rgba(201,168,76,0.3); border-radius: 4px; color: var(--gold); font-size: 0.9rem; letter-spacing: 0.05em; }
 
     /* ── FOOTER ── */
     footer { background: #07080f; padding: 26px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(201,168,76,0.12); }
@@ -309,7 +317,31 @@
   <p class="contact-eyebrow fade-in">Let's Tell a Story</p>
   <h2 class="contact-headline fade-in">Got an<br><span>Idea?</span></h2>
   <p class="contact-sub fade-in">Whether you need a storyboard, a comic, or a character — let's bring your vision to life.</p>
-  <div class="fade-in"><a href="mailto:amitaiabrahamiarts@gmail.com" class="btn btn-primary">Get In Touch</a></div>
+  <div class="fade-in">
+    <form class="contact-form" id="contactForm" action="https://formspree.io/f/mqevbopv" method="POST">
+      <div class="contact-form-row">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+      </div>
+      <input type="text" name="subject" placeholder="Subject" />
+      <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+    <div class="contact-success" id="contactSuccess">✦ &nbsp; Message sent! I'll get back to you soon.</div>
+  </div>
+  <script>
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('contactSuccess');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+      }
+    });
+  </script>
 </section>
 
 <footer>
