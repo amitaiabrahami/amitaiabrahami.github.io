@@ -173,10 +173,16 @@
     .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .contact-form .btn { width: 100%; justify-content: center; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px; }
     .contact-success { display: none; text-align: center; padding: 24px; border: 1px solid rgba(201,168,76,0.3); border-radius: 4px; color: var(--gold); font-size: 0.9rem; letter-spacing: 0.05em; }
+    .contact-email-direct { margin-top: 20px; text-align: center; font-size: 0.82rem; color: rgba(242,237,228,0.45); }
+    .contact-email-direct a { color: var(--gold); text-decoration: none; transition: opacity 0.2s; }
+    .contact-email-direct a:hover { opacity: 0.7; }
 
     /* ── FOOTER ── */
     footer { background: #07080f; padding: 26px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(201,168,76,0.12); }
     .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; color: rgba(242,237,228,0.35); }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; color: rgba(242,237,228,0.5); transition: color 0.2s, border-color 0.2s; }
+    .footer-social-btn:hover { color: var(--gold); border-color: var(--gold); }
     .footer-copy { font-size: 0.63rem; color: rgba(242,237,228,0.28); letter-spacing: 0.1em; }
 
     /* ── FADE IN ── */
@@ -328,6 +334,7 @@
       <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
     <div class="contact-success" id="contactSuccess">✦ &nbsp; Message sent! I'll get back to you soon.</div>
+    <p class="contact-email-direct">Or reach me directly at <a href="mailto:amitai.abrahami@gmail.com">amitai.abrahami@gmail.com</a></p>
   </div>
   <script>
     const form = document.getElementById('contactForm');
@@ -346,6 +353,14 @@
 
 <footer>
   <span class="footer-logo">Amitai Abrahami</span>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/tai_a.a" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/amitai-abrahami" target="_blank" rel="noopener" class="footer-social-btn" aria-label="LinkedIn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+  </div>
   <span class="footer-copy">&copy; 2026 · Sequential &amp; Storyboard Artist</span>
 </footer>
 
