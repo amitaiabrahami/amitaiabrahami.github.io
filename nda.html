@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protected Work — Amitai Abrahami</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ink: #0D0F1A; --paper: #F2EDE4; --graphite: #3A3C4A; --gold: #C9A84C; --red: #C0392B; --gap: 3px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--paper); overflow-x: hidden; min-height: 100vh; }
+
+    /* GATE */
+    #gate { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
+    .gate-eyebrow { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .gate-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 8vw, 5rem); letter-spacing: 0.06em; line-height: 0.95; margin-bottom: 12px; }
+    .gate-title span { color: var(--red); }
+    .gate-rule { width: 60px; height: 3px; background: var(--red); margin: 24px auto; }
+    .gate-sub { font-size: 0.88rem; font-weight: 300; color: rgba(242,237,228,0.5); max-width: 360px; line-height: 1.7; margin-bottom: 36px; }
+    .gate-form { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; }
+    .gate-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.3); border-radius: 4px; padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--paper); text-align: center; letter-spacing: 0.2em; outline: none; transition: border-color 0.2s; }
+    .gate-input:focus { border-color: var(--gold); }
+    .gate-input::placeholder { letter-spacing: 0.1em; color: rgba(242,237,228,0.25); }
+    .gate-btn { width: 100%; background: var(--gold); color: var(--ink); border: 2px solid var(--gold); border-radius: 4px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .gate-btn:hover { background: transparent; color: var(--gold); }
+    .gate-error { font-size: 0.78rem; color: var(--red); letter-spacing: 0.05em; min-height: 18px; }
+    .gate-back { margin-top: 28px; font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(242,237,228,0.3); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+    .gate-back:hover { color: var(--gold); }
+
+    /* CONTENT */
+    #content { display: none; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 14px 48px; background: rgba(13,15,26,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; letter-spacing: 0.1em; color: var(--paper); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-back { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(242,237,228,0.5); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--gold); }
+
+    /* HEADER */
+    .nda-header { padding: 80px 60px 50px; border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .nda-eyebrow { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .nda-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); letter-spacing: 0.06em; line-height: 0.95; }
+    .nda-title span { color: var(--red); }
+    .nda-rule { width: 60px; height: 3px; background: var(--red); margin: 24px 0; }
+    .nda-sub { font-size: 0.88rem; font-weight: 300; color: rgba(242,237,228,0.45); max-width: 500px; line-height: 1.7; }
+
+    /* PROJECTS */
+    .nda-projects { padding: 60px; display: flex; flex-direction: column; gap: 80px; }
+    .nda-card-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .nda-card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: 0.06em; margin-bottom: 8px; }
+    .nda-card-rule { width: 40px; height: 2px; background: var(--red); margin-bottom: 28px; }
+    .nda-card-desc { font-size: 0.88rem; font-weight: 300; color: rgba(242,237,228,0.55); max-width: 600px; line-height: 1.7; margin-bottom: 28px; }
+    .nda-image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 3px; }
+    .nda-image-grid img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; cursor: pointer; transition: opacity 0.2s; }
+    .nda-image-grid img:hover { opacity: 0.85; }
+
+    /* LIGHTBOX */
+    #lb { display: none; position: fixed; inset: 0; background: rgba(7,8,15,0.96); z-index: 999; align-items: center; justify-content: center; }
+    #lb.open { display: flex; }
+    #lb img { max-width: 92vw; max-height: 88vh; object-fit: contain; }
+    .lb-close { position: absolute; top: 20px; right: 28px; font-size: 1.6rem; color: rgba(242,237,228,0.5); cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .lb-close:hover { color: var(--gold); }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(242,237,228,0.4); font-size: 2rem; cursor: pointer; padding: 20px; transition: color 0.2s; }
+    .lb-prev:hover, .lb-next:hover { color: var(--gold); }
+    .lb-prev { left: 12px; }
+    .lb-next { right: 12px; }
+    .lb-counter { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(242,237,228,0.35); }
+
+    /* FOOTER */
+    footer { background: #07080f; padding: 26px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(201,168,76,0.12); }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; color: rgba(242,237,228,0.35); }
+    .footer-copy { font-size: 0.63rem; color: rgba(242,237,228,0.28); letter-spacing: 0.1em; }
+
+    @media (max-width: 640px) {
+      nav { padding: 14px 20px; }
+      .nda-header, .nda-projects { padding: 40px 20px; }
+      footer { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <p class="gate-eyebrow">Protected Work</p>
+  <h1 class="gate-title">NDA<br><span>Projects</span></h1>
+  <div class="gate-rule"></div>
+  <p class="gate-sub">This page contains confidential work shared under NDA. Please enter the password to continue.</p>
+  <div class="gate-form">
+    <input class="gate-input" type="password" id="pwInput" placeholder="Enter password" />
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <span class="gate-error" id="gateError"></span>
+  </div>
+  <a href="index.html" class="gate-back">← Back to Portfolio</a>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+  <nav>
+    <a href="index.html" class="nav-logo">Amitai <span>Abrahami</span></a>
+    <a href="index.html" class="nav-back">← Back to Portfolio</a>
+  </nav>
+
+  <div class="nda-header">
+    <p class="nda-eyebrow">Confidential Work</p>
+    <h1 class="nda-title">NDA <span>Projects</span></h1>
+    <div class="nda-rule"></div>
+    <p class="nda-sub">The following projects are shared under non-disclosure agreements. Please do not distribute or reproduce any of the work shown here.</p>
+  </div>
+
+  <div class="nda-projects">
+
+    <!-- PROJECT 1: WWE -->
+    <div class="nda-card" id="project-wwe">
+      <p class="nda-card-label">Storyboards · NDA · Batch 1 of 3</p>
+      <h2 class="nda-card-title">WWE — Money in the Bank Promo</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">Storyboard pitch developed for WWE's Money in the Bank event promo. Sent directly to the creative director. June 2026.</p>
+      <div class="nda-image-grid" id="grid-wwe">
+        <img src="Illustration183.PNG" alt="WWE Board 1" />
+        <img src="Illustration184_2.PNG" alt="WWE Board 2" />
+        <img src="Illustration185.PNG" alt="WWE Board 3" />
+        <img src="Illustration185_2.PNG" alt="WWE Board 4" />
+        <img src="Illustration186.PNG" alt="WWE Board 5" />
+        <img src="Illustration186_2.PNG" alt="WWE Board 6" />
+        <img src="Illustration187.PNG" alt="WWE Board 7" />
+        <img src="Illustration188.PNG" alt="WWE Board 8" />
+        <img src="Illustration189.PNG" alt="WWE Board 9" />
+        <img src="Illustration190.PNG" alt="WWE Board 10" />
+        <!-- BATCH 2 GOES HERE -->
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <!-- ADD SECOND PROJECT HERE -->
+
+  </div>
+
+  <footer>
+    <span class="footer-logo">Amitai Abrahami</span>
+    <span class="footer-copy">&copy; 2026 · Sequential &amp; Storyboard Artist</span>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <span class="lb-close" onclick="closeLb()">✕</span>
+  <button class="lb-prev" onclick="lbNav(-1)">&#8249;</button>
+  <img id="lbImg" src="" alt="" />
+  <button class="lb-next" onclick="lbNav(1)">&#8250;</button>
+  <span class="lb-counter" id="lbCounter"></span>
+</div>
+
+<script>
+  const CORRECT_PASSWORD = 'WtWaEi';
+  const SESSION_KEY = 'nda_unlocked';
+
+  function checkPassword() {
+    const val = document.getElementById('pwInput').value;
+    if (val === CORRECT_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      unlock();
+    } else {
+      const err = document.getElementById('gateError');
+      err.textContent = 'Incorrect password. Please try again.';
+      document.getElementById('pwInput').value = '';
+    }
+  }
+
+  function unlock() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+  }
+
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
+
+  // Lightbox
+  let lbImages = [];
+  let lbIndex = 0;
+
+  document.querySelectorAll('.nda-image-grid img').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImages = Array.from(img.closest('.nda-image-grid').querySelectorAll('img')).map(i => i.src);
+      lbIndex = lbImages.indexOf(img.src);
+      openLb();
+    });
+  });
+
+  function openLb() {
+    document.getElementById('lbImg').src = lbImages[lbIndex];
+    document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+    document.getElementById('lb').classList.add('open');
+  }
+
+  function closeLb() { document.getElementById('lb').classList.remove('open'); }
+
+  function lbNav(dir) {
+    lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+    openLb();
+  }
+
+  document.getElementById('lb').addEventListener('click', e => {
+    if (e.target === document.getElementById('lb')) closeLb();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lb').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'Escape') closeLb();
+  });
+</script>
+
+</body>
+</html>
