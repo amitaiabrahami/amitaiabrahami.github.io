@@ -52,6 +52,11 @@
     .nda-card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: 0.06em; margin-bottom: 8px; }
     .nda-card-rule { width: 40px; height: 2px; background: var(--red); margin-bottom: 28px; }
     .nda-card-desc { font-size: 0.88rem; font-weight: 300; color: rgba(242,237,228,0.55); max-width: 600px; line-height: 1.7; margin-bottom: 28px; }
+    .nda-meta { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-bottom: 26px; }
+    .nda-meta-item { font-size: 0.72rem; font-weight: 400; color: rgba(242,237,228,0.4); letter-spacing: 0.02em; }
+    .nda-meta-item strong { color: var(--gold); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.62rem; display: block; margin-bottom: 3px; }
+    .nda-credit { font-size: 0.78rem; font-weight: 300; font-style: italic; color: rgba(242,237,228,0.35); max-width: 600px; line-height: 1.7; margin-top: -10px; margin-bottom: 8px; }
+    .nda-section-divider { height: 1px; background: rgba(201,168,76,0.12); margin: 0 60px; }
     .nda-image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 3px; }
     .nda-image-grid img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; cursor: pointer; transition: opacity 0.2s; }
     .nda-image-grid img:hover { opacity: 0.85; }
@@ -105,27 +110,95 @@
   </nav>
 
   <div class="nda-header">
-    <p class="nda-eyebrow">Confidential Work</p>
-    <h1 class="nda-title">NDA <span>Projects</span></h1>
+    <p class="nda-eyebrow">SCADpro Studio Collaboration · Confidential</p>
+    <h1 class="nda-title">BD&amp;Co. <span>x SCADpro</span></h1>
     <div class="nda-rule"></div>
-    <p class="nda-sub">The following projects are shared under non-disclosure agreements. Please do not distribute or reproduce any of the work shown here.</p>
+    <p class="nda-sub">Work developed as part of a SCADpro studio collaboration with BD&amp;Co. Shared under NDA — please do not distribute or reproduce.</p>
   </div>
 
   <div class="nda-projects">
 
-    <!-- PROJECT 1: BD&CO -->
-    <div class="nda-card" id="project-bdco">
-      <p class="nda-card-label">Graphics · NDA</p>
-      <h2 class="nda-card-title">BD&amp;Co.</h2>
+    <!-- OVERVIEW -->
+    <div class="nda-card" id="project-overview">
+      <p class="nda-card-label">Overview</p>
+      <h2 class="nda-card-title">The Brief</h2>
       <div class="nda-card-rule"></div>
-      <p class="nda-card-desc">Graphics project developed for BD&amp;Co. under non-disclosure agreement.</p>
-      <div class="nda-image-grid" id="grid-bdco">
-        <!-- ADD BD&CO IMAGES HERE -->
+      <div class="nda-meta">
+        <div class="nda-meta-item"><strong>Studio</strong>SCADpro</div>
+        <div class="nda-meta-item"><strong>Client</strong>BD&amp;Co.</div>
+        <div class="nda-meta-item"><strong>Team Size</strong>13–14 students</div>
+        <div class="nda-meta-item"><strong>My Roles</strong>Character Graphics · Storyboard Artist</div>
+      </div>
+      <p class="nda-card-desc">BD&amp;Co. brought their challenge to SCADpro to explore how service design could shape their business across multiple touchpoints — advertising, their website, and a companion app. The goal was to show BD&amp;Co. how design thinking could function as a connective layer across these channels, and to prototype what that could look like in practice.</p>
+    </div>
+
+    <div class="nda-section-divider"></div>
+
+    <!-- RESEARCH -->
+    <div class="nda-card" id="project-research">
+      <p class="nda-card-label">Research &amp; Insight</p>
+      <h2 class="nda-card-title">Understanding the Customer</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">As part of the storyboard and character work, I researched the range of people affected by incontinence — across age groups, from younger adults to older adults — and the everyday struggles that shaped their behavior: disrupted sleep, avoiding exercise, and limiting hydration out of fear of an accident. This research grounded the customer personas and the journey visualized in the storyboards below.</p>
+    </div>
+
+    <div class="nda-section-divider"></div>
+
+    <!-- CHARACTER GRAPHICS -->
+    <div class="nda-card" id="project-graphics">
+      <p class="nda-card-label">Character Graphics</p>
+      <h2 class="nda-card-title">Customer Personas</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">Character graphics representing the different people BD&amp;Co.'s customers could be — used across the team's presentation slides, website mockups, and app prototype to keep the personas consistent and recognizable throughout the project.</p>
+      <p class="nda-credit">Additional graphics building on these character designs were produced by a teammate on the studio team.</p>
+      <div class="nda-image-grid" id="grid-graphics">
+        <img src="Abuelo_Rami_rez.png" alt="Persona — Abuelo Ramirez" />
+        <img src="Doctor_Aisha.png" alt="Persona — Doctor Aisha" />
+        <img src="Doctor_Daniel.png" alt="Persona — Doctor Daniel" />
+        <img src="Grandma_Betty__Comfortable_.png" alt="Persona — Grandma Betty, Comfortable" />
+        <img src="Grandma_Betty__Uncomforable_.png" alt="Persona — Grandma Betty, Uncomfortable" />
+        <img src="Illustration144.PNG" alt="Persona — Character Graphic" />
+        <img src="Nurse_Jesse.png" alt="Persona — Nurse Jesse" />
+        <img src="Sydney_Running__Happy_.png" alt="Persona — Sydney Running, Happy" />
+        <img src="Sydney_Running__Sad_.png" alt="Persona — Sydney Running, Sad" />
       </div>
     </div>
 
-    <!-- PROJECT 2 -->
-    <!-- ADD SECOND PROJECT HERE -->
+    <div class="nda-section-divider"></div>
+
+    <!-- STORYBOARDS -->
+    <div class="nda-card" id="project-storyboards">
+      <p class="nda-card-label">Storyboards</p>
+      <h2 class="nda-card-title">The Customer Journey</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">Storyboards visualizing what the customer journey could look like for different personas — from the daily friction points uncovered in research through to the moments where BD&amp;Co.'s product and service design could step in.</p>
+      <div class="nda-image-grid" id="grid-storyboards">
+        <!-- ADD STORYBOARD IMAGES HERE -->
+      </div>
+    </div>
+
+    <div class="nda-section-divider"></div>
+
+    <!-- APPLICATIONS -->
+    <div class="nda-card" id="project-applications">
+      <p class="nda-card-label">Applications</p>
+      <h2 class="nda-card-title">Where It Was Used</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">The character graphics and storyboard work were applied across the studio's final deliverables — team presentation slides, a website concept, and an app prototype — showing BD&amp;Co. how the same visual language could carry across every customer touchpoint.</p>
+      <div class="nda-image-grid" id="grid-applications">
+        <!-- ADD APPLICATION MOCKUPS HERE -->
+      </div>
+    </div>
+
+    <div class="nda-section-divider"></div>
+
+    <!-- OUTCOME -->
+    <div class="nda-card" id="project-outcome">
+      <p class="nda-card-label">Outcome</p>
+      <h2 class="nda-card-title">Response</h2>
+      <div class="nda-card-rule"></div>
+      <p class="nda-card-desc">Following the studio's final presentation, BD&amp;Co. shared the work internally with their own design team for further discussion.</p>
+    </div>
 
   </div>
 
