@@ -35,28 +35,77 @@
 
     /* ── HERO ── */
     #hero {
-      min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 60px 70px; position: relative; overflow: hidden; background: var(--ink);
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 110px 60px 70px; position: relative; overflow: hidden; background: var(--ink);
     }
-    .hero-panels { position: absolute; inset: 0; display: grid; grid-template-columns: 1.2fr 0.5fr 0.8fr 1fr; grid-template-rows: 1fr 1fr; gap: var(--gap); opacity: 0.15; }
-    .hero-panel { background: var(--graphite); }
-    .hero-panel:nth-child(1) { grid-row: 1/3; background: #1c1f30; }
-    .hero-panel:nth-child(2) { background: #252836; }
-    .hero-panel:nth-child(3) { grid-row: 1/3; background: #1a1d2a; }
     .hero-lines { position: absolute; inset: 0; background: repeating-linear-gradient(-30deg,transparent,transparent 60px,rgba(201,168,76,0.022) 60px,rgba(201,168,76,0.022) 61px); pointer-events: none; }
     .hero-eyebrow { position: relative; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
-    .hero-name { position: relative; font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 10vw, 9rem); line-height: 0.92; letter-spacing: 0.04em; }
+    .hero-name { position: relative; font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.6rem, 6.5vw, 6.5rem); line-height: 0.92; letter-spacing: 0.04em; }
     .hero-name .line2 { color: var(--gold); }
     .hero-rule { position: relative; width: 80px; height: 3px; background: var(--red); margin: 28px 0; }
-    .hero-tagline { position: relative; font-size: 1.05rem; font-weight: 300; line-height: 1.65; color: rgba(242,237,228,0.75); max-width: 520px; }
+    .hero-tagline { position: relative; font-size: 1.05rem; font-weight: 300; line-height: 1.65; color: rgba(242,237,228,0.75); max-width: 460px; }
     .hero-cta { position: relative; margin-top: 36px; display: flex; gap: 16px; flex-wrap: wrap; }
     .btn { display: inline-block; padding: 11px 28px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
     .btn-primary { background: var(--gold); color: var(--ink); border: 2px solid var(--gold); }
     .btn-primary:hover { background: transparent; color: var(--gold); }
     .btn-ghost { background: transparent; color: var(--paper); border: 2px solid rgba(242,237,228,0.35); }
     .btn-ghost:hover { border-color: var(--paper); }
-    .hero-scroll { position: absolute; bottom: 30px; right: 60px; display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.35; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .hero-scroll { position: absolute; bottom: 30px; right: 60px; display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.35; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 2; }
     .hero-scroll::after { content: ''; width: 1px; height: 50px; background: var(--paper); display: block; }
+
+    /* ── FEATURED SPLIT + COMIC PANEL FRAME ── */
+    .hero-split { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; width: 100%; }
+    .hero-left { position: relative; }
+    .hero-right { position: relative; }
+
+    .hero-dots { position: relative; display: flex; gap: 10px; margin-top: 44px; }
+    .hero-dots button { width: 8px; height: 8px; border-radius: 4px; border: 1px solid rgba(242,237,228,0.35); background: transparent; padding: 0; cursor: pointer; transition: all 0.25s; }
+    .hero-dots button.active { width: 26px; background: var(--gold); border-color: var(--gold); }
+
+    .hero-panel-frame {
+      position: relative; aspect-ratio: 4/3.1; overflow: hidden; background: #0f1120;
+      border: 1px solid rgba(201,168,76,0.25);
+    }
+    .hero-bracket { position: absolute; width: 22px; height: 22px; border-color: var(--gold); border-style: solid; z-index: 4; }
+    .hero-bracket.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+    .hero-bracket.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
+    .hero-bracket.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
+    .hero-bracket.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+    .hero-panel-label {
+      position: absolute; top: 22px; left: 22px; z-index: 3;
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
+      background: rgba(7,8,15,0.65); padding: 6px 12px; border: 1px solid rgba(201,168,76,0.3);
+    }
+    .hero-panel-number {
+      position: absolute; top: 22px; right: 22px; z-index: 3;
+      font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; color: rgba(242,237,228,0.7);
+      background: rgba(7,8,15,0.65); padding: 6px 12px; border: 1px solid rgba(242,237,228,0.15);
+    }
+    .hero-panel-imgwrap { position: absolute; inset: 0; }
+    .hero-panel-imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(10%) contrast(1.05); opacity: 1; transition: opacity 0.35s ease; }
+    .hero-panel-imgwrap img.fading { opacity: 0; }
+
+    .hero-panel-caption {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 28px 24px 22px;
+      background: linear-gradient(0deg, rgba(7,8,15,0.92) 15%, transparent 100%);
+    }
+    .hero-panel-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.1rem); letter-spacing: 0.04em; color: var(--paper); line-height: 1.05; }
+    .hero-panel-subtitle { font-size: 0.82rem; font-weight: 300; color: rgba(242,237,228,0.6); margin-top: 6px; max-width: 460px; line-height: 1.5; }
+
+    .hero-thumbs { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); margin-top: var(--gap); }
+    .hero-thumb { position: relative; aspect-ratio: 1; overflow: hidden; padding: 0; border: 1px solid rgba(242,237,228,0.12); background: #0f1120; cursor: pointer; }
+    .hero-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(35%) contrast(1); opacity: 0.55; transition: opacity 0.25s, filter 0.25s; }
+    .hero-thumb::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--gold); transform: scaleX(0); transition: transform 0.25s ease; }
+    .hero-thumb.active { border-color: var(--gold); }
+    .hero-thumb.active img { opacity: 1; filter: grayscale(0%) contrast(1.05); }
+    .hero-thumb.active::after { transform: scaleX(1); }
+    .hero-thumb:hover img { opacity: 0.85; }
+
+    @media (max-width: 900px) {
+      .hero-split { grid-template-columns: 1fr; gap: 40px; }
+      .hero-panel-frame { aspect-ratio: 4/3.6; }
+    }
 
     /* ── SECTION ── */
     .portfolio-section { padding: 96px 60px; }
@@ -258,19 +307,38 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-panels" aria-hidden="true">
-    <div class="hero-panel"></div><div class="hero-panel"></div>
-    <div class="hero-panel"></div><div class="hero-panel"></div>
-    <div class="hero-panel"></div><div class="hero-panel"></div>
-  </div>
   <div class="hero-lines" aria-hidden="true"></div>
-  <p class="hero-eyebrow">Sequential &amp; Storyboard Artist</p>
-  <h1 class="hero-name">Amitai<br><span class="line2">Abrahami</span></h1>
-  <div class="hero-rule"></div>
-  <p class="hero-tagline">Turning ideas into clear, engaging visual stories — for animation, film, commercials, and beyond.</p>
-  <div class="hero-cta">
-    <a href="#storyboards" class="btn btn-primary">View Work</a>
-    <a href="#about" class="btn btn-ghost">About Me</a>
+  <div class="hero-split">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Sequential &amp; Storyboard Artist</p>
+      <h1 class="hero-name">Amitai<br><span class="line2">Abrahami</span></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline">Turning ideas into clear, engaging visual stories — for animation, film, commercials, and beyond.</p>
+      <div class="hero-cta">
+        <a href="#storyboards" class="btn btn-primary">View Work</a>
+        <a href="#about" class="btn btn-ghost">About Me</a>
+      </div>
+      <div class="hero-dots" id="heroDots" role="tablist" aria-label="Featured work"></div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-panel-frame" id="heroPanelFrame">
+        <span class="hero-bracket tl" aria-hidden="true"></span>
+        <span class="hero-bracket tr" aria-hidden="true"></span>
+        <span class="hero-bracket bl" aria-hidden="true"></span>
+        <span class="hero-bracket br" aria-hidden="true"></span>
+        <span class="hero-panel-label" id="heroPanelLabel">Storyboard</span>
+        <span class="hero-panel-number" id="heroPanelNumber">01 / 04</span>
+        <div class="hero-panel-imgwrap">
+          <img id="heroPanelImg" src="" alt="" />
+        </div>
+        <div class="hero-panel-caption">
+          <p class="hero-panel-title" id="heroPanelTitle"></p>
+          <p class="hero-panel-subtitle" id="heroPanelSubtitle"></p>
+        </div>
+      </div>
+      <div class="hero-thumbs" id="heroThumbs"></div>
+    </div>
   </div>
   <div class="hero-scroll" aria-hidden="true">Scroll</div>
 </section>
@@ -1078,7 +1146,102 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </div>
 
 <script>
-  // Config for each NDA lock on the page: cardId -> { password, redirect, sessionKey, modalId, pwInputId, errorId }
+  // ── HERO FEATURED PANEL ──────────────────────────
+  const FEATURED_PANELS = [
+    {
+      category: "Storyboard",
+      title: "Sparkling Ice",
+      subtitle: "Advertisement ideation — from rough thumbnails through blue-line to a full color pass.",
+      image: "Sparkling_Ice.png",
+      link: "#storyboards"
+    },
+    {
+      category: "Comic",
+      title: "Death's Job",
+      subtitle: "Death visits a graveyard at the stroke of midnight to comfort a restless soul back to rest.",
+      image: "Abrahami_Amitai_Comic2_Death_s_Job_Page1.jpg",
+      link: "#comics"
+    },
+    {
+      category: "Character Design",
+      title: "Barbarians",
+      subtitle: "Male & female barbarian warriors — shape sketches through line art to finished pieces.",
+      image: "Barbarian_Male_Finished.jpeg",
+      link: "#characters"
+    },
+    {
+      category: "Illustration",
+      title: "Beyond the Stars",
+      subtitle: "Cover illustration — inks through to full color with a sweeping alien sky.",
+      image: "Beyond_the_Stars.jpeg",
+      link: "#illustrations"
+    }
+  ];
+
+  let heroIndex = 0;
+  let heroTimer = null;
+
+  const heroPanelImg = document.getElementById('heroPanelImg');
+  const heroPanelLabel = document.getElementById('heroPanelLabel');
+  const heroPanelNumber = document.getElementById('heroPanelNumber');
+  const heroPanelTitle = document.getElementById('heroPanelTitle');
+  const heroPanelSubtitle = document.getElementById('heroPanelSubtitle');
+  const heroPanelFrame = document.getElementById('heroPanelFrame');
+  const heroDots = document.getElementById('heroDots');
+  const heroThumbs = document.getElementById('heroThumbs');
+
+  function renderHeroChrome() {
+    heroDots.innerHTML = FEATURED_PANELS.map((p, i) =>
+      `<button aria-label="Show ${p.title}" data-i="${i}"></button>`
+    ).join('');
+    heroThumbs.innerHTML = FEATURED_PANELS.map((p, i) =>
+      `<button class="hero-thumb" data-i="${i}" aria-label="Show ${p.title}"><img src="${p.image}" alt="${p.title}" loading="lazy" /></button>`
+    ).join('');
+
+    heroDots.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => setHeroPanel(parseInt(btn.dataset.i, 10), true));
+    });
+    heroThumbs.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => setHeroPanel(parseInt(btn.dataset.i, 10), true));
+    });
+  }
+
+  function setHeroPanel(i, userTriggered) {
+    heroIndex = i;
+    const p = FEATURED_PANELS[i];
+
+    heroPanelImg.classList.add('fading');
+    setTimeout(() => {
+      heroPanelImg.src = p.image;
+      heroPanelImg.alt = p.title;
+      heroPanelLabel.textContent = p.category;
+      heroPanelNumber.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(FEATURED_PANELS.length).padStart(2, '0');
+      heroPanelTitle.textContent = p.title;
+      heroPanelSubtitle.textContent = p.subtitle;
+      heroPanelFrame.onclick = () => { window.location.hash = p.link; };
+      heroPanelImg.classList.remove('fading');
+    }, 220);
+
+    heroDots.querySelectorAll('button').forEach((btn, idx) => btn.classList.toggle('active', idx === i));
+    heroThumbs.querySelectorAll('button').forEach((btn, idx) => btn.classList.toggle('active', idx === i));
+
+    if (userTriggered) restartHeroTimer();
+  }
+
+  function restartHeroTimer() {
+    if (heroTimer) clearInterval(heroTimer);
+    heroTimer = setInterval(() => {
+      setHeroPanel((heroIndex + 1) % FEATURED_PANELS.length, false);
+    }, 4000);
+  }
+
+  renderHeroChrome();
+  setHeroPanel(0, false);
+  restartHeroTimer();
+</script>
+
+<script>
+  // ── NDA LOCKS ─────────────────────────────────────
   const NDA_LOCKS = {
     ndaModal:     { cardId: 'ndaCardThumb',     pwInputId: 'ndaPwInput',     errorId: 'ndaError',     password: 'WtWaEi',  redirect: 'nda.html',      sessionKey: 'nda_unlocked' },
     ndaModalBdco: { cardId: 'ndaCardThumbBdco', pwInputId: 'ndaPwInputBdco', errorId: 'ndaErrorBdco', password: 'BtDa&i',  redirect: 'nda-bdco.html', sessionKey: 'nda_bdco_unlocked' }
