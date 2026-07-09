@@ -63,8 +63,8 @@
     .hero-dots button.active { width: 26px; background: var(--gold); border-color: var(--gold); }
 
     .hero-panel-frame {
-      position: relative; aspect-ratio: 4/3.1; overflow: hidden; background: #0f1120;
-      border: 1px solid rgba(201,168,76,0.25);
+      position: relative; overflow: hidden; background: #0f1120;
+      border: 1px solid rgba(201,168,76,0.25); height: 480px; transition: height 0.4s ease;
     }
     .hero-bracket { position: absolute; width: 22px; height: 22px; border-color: var(--gold); border-style: solid; z-index: 4; }
     .hero-bracket.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
@@ -82,8 +82,8 @@
       font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; color: rgba(242,237,228,0.7);
       background: rgba(7,8,15,0.65); padding: 6px 12px; border: 1px solid rgba(242,237,228,0.15);
     }
-    .hero-panel-imgwrap { position: absolute; inset: 0; }
-    .hero-panel-imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(10%) contrast(1.05); opacity: 1; transition: opacity 0.35s ease; }
+    .hero-panel-imgwrap { position: absolute; inset: 0; background: #0f1120; display: flex; align-items: center; justify-content: center; }
+    .hero-panel-imgwrap img { width: 100%; height: 100%; object-fit: contain; display: block; filter: grayscale(10%) contrast(1.05); opacity: 1; transition: opacity 0.35s ease; }
     .hero-panel-imgwrap img.fading { opacity: 0; }
 
     .hero-panel-caption {
@@ -104,7 +104,7 @@
 
     @media (max-width: 900px) {
       .hero-split { grid-template-columns: 1fr; gap: 40px; }
-      .hero-panel-frame { aspect-ratio: 4/3.6; }
+      .hero-panel-frame { height: 380px; }
     }
 
     /* ── SECTION ── */
@@ -1206,6 +1206,21 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
     });
   }
 
+  const HERO_FRAME_MIN_H = 340;
+  const HERO_FRAME_MAX_H = 640;
+
+  function fitHeroFrameToImage(src) {
+    const probe = new Image();
+    probe.onload = () => {
+      const frameWidth = heroPanelFrame.clientWidth || 600;
+      const ratio = probe.naturalWidth / probe.naturalHeight;
+      let idealHeight = frameWidth / ratio;
+      idealHeight = Math.max(HERO_FRAME_MIN_H, Math.min(HERO_FRAME_MAX_H, idealHeight));
+      heroPanelFrame.style.height = idealHeight + 'px';
+    };
+    probe.src = src;
+  }
+
   function setHeroPanel(i, userTriggered) {
     heroIndex = i;
     const p = FEATURED_PANELS[i];
@@ -1220,6 +1235,7 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
       heroPanelSubtitle.textContent = p.subtitle;
       heroPanelFrame.onclick = () => { window.location.hash = p.link; };
       heroPanelImg.classList.remove('fading');
+      fitHeroFrameToImage(p.image);
     }, 220);
 
     heroDots.querySelectorAll('button').forEach((btn, idx) => btn.classList.toggle('active', idx === i));
