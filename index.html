@@ -139,8 +139,8 @@
     .project-thumb.locked:hover .lock-label { color: var(--gold); }
 
     /* ── PASSWORD MODAL ── */
-    #ndaModalBdco { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(7,8,15,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
-    #ndaModalBdco.open { display: flex; }
+    #ndaModal, #ndaModalBdco { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(7,8,15,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+    #ndaModal.open, #ndaModalBdco.open { display: flex; }
     .nda-modal-box { background: #13152a; border: 1px solid rgba(201,168,76,0.2); border-radius: 6px; padding: 44px 40px; width: 100%; max-width: 360px; text-align: center; position: relative; }
     .nda-modal-eyebrow { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
     .nda-modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.08em; margin-bottom: 6px; }
@@ -645,6 +645,16 @@ const PROJECTS = [
   // ── ILLUSTRATIONS ──────────────────────────────────
   {
     section: "illustrations",
+    title: "Pumpkin Zine — Model Issue: Ayola Amari",
+    desc: "A magazine cover illustration for a fictional 'Pumpkin Zine' Model Issue, starring Ayola Amari from Beyond the Stars. August 2026.",
+    cover: "Illustration197_2.PNG",
+    coverPosition: "top center",
+    images: [
+      "Illustration197_2.PNG"
+    ]
+  },
+  {
+    section: "illustrations",
     title: "Kathrine Kaplan",
     desc: "An original character illustration of Kathrine Kaplan. April 2026.",
     cover: "Kathrine_Kaplan.jpeg",
@@ -840,37 +850,6 @@ const PROJECTS = [
 
   {
     section: "storyboards",
-    title: "WWE — Money in the Bank Promo",
-    desc: "Storyboard pitch developed for WWE's Money in the Bank event promo. Sent directly to the creative director. June 2026.",
-    cover: "Illustration183.PNG",
-    coverPosition: "center center",
-    images: [
-      "Illustration183.PNG",
-      "Illustration184_2.PNG",
-      "Illustration185.PNG",
-      "Illustration185_2.PNG",
-      "Illustration186.PNG",
-      "Illustration186_2.PNG",
-      "Illustration187.PNG",
-      "Illustration188.PNG",
-      "Illustration189.PNG",
-      "Illustration190.PNG",
-      "Illustration190_2.PNG",
-      "Illustration191.PNG",
-      "Illustration191_2.PNG",
-      "Illustration192.PNG",
-      "Illustration193.PNG",
-      "Illustration194.PNG",
-      "Illustration195.PNG",
-      "Illustration195_2.PNG",
-      "Illustration195_3.PNG",
-      "Illustration195_4.PNG",
-      "Illustration195_5.PNG"
-    ]
-  },
-
-  {
-    section: "storyboards",
     title: "Sparkling Ice — Advertisement Ideation",
     desc: "An ideation exercise in commercial and advertising storyboarding — conceived spontaneously while drinking a Sparkling Ice on a hot day. Follows a man in the desert who discovers an oasis of flavor fountains. Developed from rough thumbnails through blue-line and a full color pass. April 2025.",
     cover: "Sparkling_Ice.png",
@@ -946,6 +925,24 @@ document.querySelectorAll('.project-grid').forEach(grid => {
 
     grid.appendChild(card);
   });
+
+  // Append locked NDA card to storyboards grid
+  if (section === 'storyboards') {
+    const lockedCard = document.createElement('div');
+    lockedCard.className = 'project-card';
+    lockedCard.innerHTML = `
+      <div class="project-thumb locked" id="ndaCardThumb" tabindex="0" role="button" aria-label="View protected NDA work">
+        <div class="lock-bg">
+          <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="lock-label">Protected Work</span>
+        </div>
+        <div class="thumb-overlay">
+          <div class="thumb-title">NDA Projects</div>
+          <div class="thumb-count">Password Required</div>
+        </div>
+      </div>`;
+    grid.appendChild(lockedCard);
+  }
 
   // Append locked NDA card to graphics grid
   if (section === 'graphics') {
@@ -1132,6 +1129,19 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 
+<!-- ── NDA PASSWORD MODAL: WWE ── -->
+<div id="ndaModal">
+  <div class="nda-modal-box">
+    <button class="nda-modal-close" onclick="closeNdaModal('ndaModal')">✕</button>
+    <p class="nda-modal-eyebrow">Protected Work</p>
+    <h2 class="nda-modal-title">NDA Projects</h2>
+    <p class="nda-modal-sub">This work is confidential. Enter the password to continue.</p>
+    <input class="nda-modal-input" type="password" id="ndaPwInput" placeholder="Enter password" />
+    <div class="nda-modal-error" id="ndaError"></div>
+    <button class="nda-modal-btn" onclick="checkNdaPassword('ndaModal')">Enter</button>
+  </div>
+</div>
+
 <!-- ── NDA PASSWORD MODAL: BD&Co. ── -->
 <div id="ndaModalBdco">
   <div class="nda-modal-box">
@@ -1243,6 +1253,7 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 <script>
   // ── NDA LOCKS ─────────────────────────────────────
   const NDA_LOCKS = {
+    ndaModal:     { cardId: 'ndaCardThumb',     pwInputId: 'ndaPwInput',     errorId: 'ndaError',     password: 'WtWaEi',  redirect: 'nda.html',      sessionKey: 'nda_unlocked' },
     ndaModalBdco: { cardId: 'ndaCardThumbBdco', pwInputId: 'ndaPwInputBdco', errorId: 'ndaErrorBdco', password: 'BtDa&i',  redirect: 'nda-bdco.html', sessionKey: 'nda_bdco_unlocked' }
   };
 
